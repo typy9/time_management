@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.1"
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
+
+    <tlib-version>1.0</tlib-version>
+    <short-name>paginator</short-name>
+    <uri>/WEB-INF</uri>
+
+    <tag>
+        <name>display_pagination</name>
+        <tag-class>com.project.time_management.customtag.PaginationFormatterTag</tag-class>
+        <body-content>empty</body-content>
+
+        <attribute>
+            <name>currentPage</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>int</type>
+        </attribute>
+        <attribute>
+            <name>noOfPages</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>int</type>
+        </attribute>
+        <attribute>
+            <name>page</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+<!--        <attribute>-->
+<!--            <name>nextPage</name>-->
+<!--            <required>true</required>-->
+<!--            <rtexprvalue>true</rtexprvalue>-->
+<!--            <type>java.lang.String</type>-->
+<!--        </attribute>-->
+<!--        <attribute>-->
+<!--            <name>previousPage</name>-->
+<!--            <required>true</required>-->
+<!--            <rtexprvalue>true</rtexprvalue>-->
+<!--            <type>java.lang.String</type>-->
+<!--        </attribute>-->
+    </tag>
+</taglib>
