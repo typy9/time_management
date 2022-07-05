@@ -4,7 +4,6 @@ import com.project.time_management.dao.ActivityDAO;
 import com.project.time_management.dao.DBException;
 import com.project.time_management.dao.RequestDAO;
 import com.project.time_management.entity.Request;
-import com.project.time_management.services.category.AddCategoryService;
 import org.apache.log4j.Logger;
 
 import javax.sql.DataSource;
@@ -33,7 +32,10 @@ public class AddActivityRequestService {
 
                 int activityId = activityDAO.findActivityIdByName(activity);
                 final Request request = new Request(userId, activityId, "created");
-                requestDAO.create(request);
+
+                if ( !requestDAO.findByUserIdActivityIdStatus(userId, activityId, "created")) {
+                    requestDAO.create(request);
+                }
                 activityRequests = requestDAO.findAll();
 
             } catch (SQLException e) {

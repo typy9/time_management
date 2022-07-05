@@ -10,6 +10,7 @@ import java.io.IOException;
 public class RegistrationCommand extends FrontCommand {
 
     private static final Logger LOG = Logger.getLogger(RegistrationCommand.class);
+
     @Override
     public void process() throws ServletException, IOException {
         LOG.debug("Start executing Command");

@@ -15,7 +15,7 @@ public class RequestDAOTest {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             dataSource = new MysqlConnectionPoolDataSource();
-            dataSource.setURL("jdbc:mysql://127.0.0.1:3306/project_db");
+            dataSource.setURL("jdbc:mysql://127.0.0.1:3306/test_db");
             dataSource.setUser("root");
             dataSource.setPassword("Bajeu4fg5$");
             new ConnectionPool(dataSource);
@@ -27,34 +27,37 @@ public class RequestDAOTest {
 
     @Test
     public void findAllTest() throws DBException {
-        assertNotNull(requestDAO.findAll());
+        assertTrue(requestDAO.findAll().isEmpty());
     }
 
     @Test
-    public void findEntityById() {
+    public void findEntityById() throws DBException {
+        assertFalse(requestDAO.findEntityById(0).isPresent());
+    }
+
+//    @Test
+//    public void delete() {
+//    }
+//
+//    @Test
+//    public void testDelete() {
+//    }
+//
+//    @Test
+//    public void create() {
+//    }
+//
+//    @Test
+//    public void update() {
+//    }
+
+    @Test
+    public void updateStatusById() throws DBException {
+        assertFalse(requestDAO.updateStatusById(0, "approved"));
     }
 
     @Test
-    public void delete() {
-    }
-
-    @Test
-    public void testDelete() {
-    }
-
-    @Test
-    public void create() {
-    }
-
-    @Test
-    public void update() {
-    }
-
-    @Test
-    public void updateStatusById() {
-    }
-
-    @Test
-    public void getStatusById() {
+    public void getStatusById() throws DBException {
+        assertNull(requestDAO.getStatusById(0));
     }
 }

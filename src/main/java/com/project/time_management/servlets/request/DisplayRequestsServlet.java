@@ -2,6 +2,7 @@ package com.project.time_management.servlets.request;
 
 
 import com.project.time_management.entity.Request;
+import com.project.time_management.helpers.PaginationHelper;
 import com.project.time_management.services.request.DisplayRequestsService;
 import org.apache.log4j.Logger;
 
@@ -21,29 +22,36 @@ import java.util.List;
 public class DisplayRequestsServlet extends HttpServlet {
 
     private static final Logger LOG = Logger.getLogger(DisplayRequestsServlet.class);
-//    private List<Request> activityRequests;
     @Resource(name="jdbc/project")
     DataSource dataSource;
 
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     @Override
     public void init() throws ServletException {
-//        final Object activityRequests = getServletContext().getAttribute("activityRequests");
-//
-//        if (!(activityRequests instanceof CopyOnWriteArrayList)) {
-//            throw new IllegalStateException("activityRequests repo did not initialize!");
-//        } else {
-//            this.activityRequests = (CopyOnWriteArrayList<Request>) activityRequests;
-//        }
+
     }
 
     @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response)
             throws ServletException, IOException {
-        LOG.debug("Start executing doGet");
-        DisplayRequestsService processRequest = new DisplayRequestsService(dataSource);
-        List<Request> activityRequests = processRequest.displayRequests();
 
+        LOG.debug("Start executing doGet");
+
+        PaginationHelper paginationHelper = new PaginationHelper();
+        int recordsPerPage = PaginationHelper.RECORDS_PER_PAGE;
+        int page= paginationHelper.getPageParameter(request);
+
+        DisplayRequestsService processRequest = new DisplayRequestsService(dataSource);
+        List<Request> activityRequests = processRequest.getRequests(page, recordsPerPage);
+        int noOfPages = processRequest.getNoOfPages();
+
+        request.setAttribute("noOfPages", noOfPages);
+        request.setAttribute("recordsPerPage", recordsPerPage);
+        request.setAttribute("currentPage", page);
         request.setAttribute("activityRequests", activityRequests);
         HttpSession session = request.getSession(false);
         session.setAttribute("view", "/requests");
@@ -52,6 +60,7 @@ public class DisplayRequestsServlet extends HttpServlet {
         LOG.debug("Finish executing doGet");
     }
 
+    @Override
     public void destroy() {
 
     }

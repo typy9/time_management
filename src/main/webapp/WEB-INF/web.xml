@@ -9,6 +9,13 @@
         <param-value>com.project.resources</param-value>
     </context-param>
 
+    <resource-ref>
+        <description>DB Connection</description>
+        <res-ref-name>jdbc/project</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+
     <!--      filter set encoding-->
       <filter>
         <filter-name>EncodingFilter</filter-name>
@@ -20,7 +27,7 @@
         <url-pattern>/*</url-pattern>
       </filter-mapping>
 
-<!--        filter set locale-->
+    <!--        filter set locale-->
       <filter>
         <filter-name>SessionLocaleFilter</filter-name>
         <filter-class>com.project.time_management.servlets.filters.SessionLocaleFilter</filter-class>
@@ -31,6 +38,18 @@
         <url-pattern>/*</url-pattern>
       </filter-mapping>
 
+    <!--    login filter -->
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>com.project.time_management.servlets.filters.LoginFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--     authentication filter    -->
     <filter>
         <filter-name>AuthenticationFilter</filter-name>
         <filter-class>com.project.time_management.servlets.filters.AuthenticationFilter</filter-class>
@@ -41,16 +60,16 @@
                 request.ApproveRequest request.DeclineRequest category.DeleteCategory category.UpdateCategory
                 category.AddCategory category.UpdateCategory activity.FilterActivityByCategory
                 activity.DeleteActivity activity.UpdateActivity activity.UpdateActivityTime activity.AddActivity
-                utils.DispatchToAdminMain
+                utils.DispatchToAdminMain request.DeleteRequestAdmin
             </param-value>
         </init-param>
         <init-param>
             <param-name>user</param-name>
-            <param-value> activity.UpdateActivityTime, request.AddRequest</param-value>
+            <param-value> activity.UpdateActivityTime request.AddRequest request.DeleteRequestUser</param-value>
         </init-param>
         <init-param>
             <param-name>common</param-name>
-            <param-value> activity.UpdateActivityTime </param-value>
+            <param-value> activity.UpdateActivityTime request.DeleteRequestUser </param-value>
         </init-param>
         <init-param>
             <param-name>out-of-control</param-name>

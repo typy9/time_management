@@ -1,11 +1,8 @@
 package com.project.time_management.servlets.category;
 
-import com.project.time_management.dao.CategoryDAO;
-import com.project.time_management.dao.DBException;
 import com.project.time_management.entity.Category;
 import com.project.time_management.helpers.PaginationHelper;
 import com.project.time_management.services.category.AddCategoryService;
-import com.project.time_management.servlets.activity.ActivityTimeUpdateServlet;
 import org.apache.log4j.Logger;
 
 import javax.annotation.Resource;
@@ -16,10 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @WebServlet("/category_add")
 public class AddCategoryServlet extends HttpServlet {

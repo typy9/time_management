@@ -50,6 +50,7 @@ public class AuthenticationFilter implements Filter {
         boolean accessAllowed = authenticationHelper.accessAllowed(
                 command, userRole, outOfControl, commons, accessMap);
 
+
         if ( session != null && accessAllowed) {
             LOG.debug("access allowed");
             chain.doFilter(request, response);
@@ -67,38 +68,6 @@ public class AuthenticationFilter implements Filter {
         Filter.super.destroy();
     }
 
-//    private boolean accessAllowed(ServletRequest request) {
-//
-//        HttpServletRequest httpRequest = (HttpServletRequest) request;
-//
-//        String command = request.getParameter("command");
-////        System.out.println("command : " + command);
-//
-//        HttpSession session = httpRequest.getSession(false);
-//        String userRole = (String) session.getAttribute("role");
-////        System.out.println("userRole : " + userRole);
-//
-//        if (outOfControl.contains(command)) {
-//            return true;
-//        }
-//
-//        if (userRole == null) {
-//            System.out.println("user role is null");
-//            return commons.contains(command);
-//        }
-//
-//        if (command == null || command.isEmpty()) {
-//            return true;
-//        }
-//
-//        if (session == null) {
-//            System.out.println("session is null");
-//            return false;
-//        }
-//
-////        System.out.println("final return : " + (accessMap.get(userRole).contains(command) || commons.contains(command)));
-//        return accessMap.get(userRole).contains(command) || commons.contains(command);
-//    }
 
     private List<String> asList(String str) {
         List<String> list = new ArrayList<>();

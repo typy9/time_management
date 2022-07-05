@@ -28,6 +28,14 @@ public class DisplayUserServlet extends HttpServlet {
         super();
     }
 
+    public DisplayUserServlet(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+    
     @Override
     public void init() throws ServletException {
 
@@ -47,7 +55,7 @@ public class DisplayUserServlet extends HttpServlet {
 
         PaginationHelper paginationHelper = new PaginationHelper();
         int recordsPerPage = PaginationHelper.RECORDS_PER_PAGE;
-        int page= paginationHelper.getPageParameter(request);
+        int page = paginationHelper.getPageParameter(request);
 
         DisplayUserService processRequest = new DisplayUserService(dataSource);
         List<User> users = processRequest.getUsers(page, recordsPerPage);

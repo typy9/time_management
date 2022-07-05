@@ -1,15 +1,26 @@
 package com.project.time_management.services.user;
 
 import com.mysql.cj.jdbc.MysqlConnectionPoolDataSource;
+import com.project.time_management.dao.ConnectionPool;
+import org.h2.jdbcx.JdbcConnectionPool;
+import org.h2.jdbcx.JdbcConnectionPoolBackwardsCompat;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import static org.junit.Assert.*;
 
 public class DisplayUserServiceTest {
 
     MysqlConnectionPoolDataSource dataSource;
+
     DisplayUserService service;
+
 
     @Before
     public void setUp() throws Exception {
@@ -24,6 +35,7 @@ public class DisplayUserServiceTest {
         }
         service = new DisplayUserService(dataSource);
     }
+
 
     @Test
     public void getUsersNotNullTest() {

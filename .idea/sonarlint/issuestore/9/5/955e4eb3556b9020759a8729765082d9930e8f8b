@@ -1,0 +1,7 @@
+
+g
+java:S1192*"JDefine a constant instead of duplicating this literal "user_name" 3 times.(û¶‰þ8³ò’¯›0
+j
+java:S1192)"HDefine a constant instead of duplicating this literal "user_id" 5 times.(ç•ˆ¿ÿÿÿÿÿ8´ò’¯›0
+¨
+java:S1130ß"„Remove the declaration of thrown exception 'com.project.time_management.dao.DBException', as it cannot be thrown from method's body.(²£ÓÕùÿÿÿÿ8£ó’¯›0

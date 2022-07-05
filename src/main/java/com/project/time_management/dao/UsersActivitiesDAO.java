@@ -9,9 +9,13 @@ import java.util.*;
 public class UsersActivitiesDAO extends AbstractDAO<UsersActivity> {
 
     private static final Logger LOG = Logger.getLogger(UsersActivitiesDAO.class);
+
     private int noOfRecords;
     private static final String SQL_SELECT_ALL = "SELECT * FROM users_activities ORDER BY id";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM users_activities WHERE id=? ORDER BY id";
+
+    private static final String SQL_SELECT_BY_USER_ID_ACTIVITY_ID = "SELECT * FROM users_activities " +
+            "WHERE user_id=? AND activity_id=? ORDER BY id";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM users_activities WHERE id=?";
     private static final String SQL_DELETE = "DELETE FROM users_activities WHERE id in(%s)";
     private static final String SQL_CREATE = "INSERT INTO users_activities(user_id, activity_id, time) VALUES (?,?,?)";
@@ -351,7 +355,9 @@ public class UsersActivitiesDAO extends AbstractDAO<UsersActivity> {
 
     public List<UsersActivityFull> findAllWithLimits(int offset, int noOfRecords)
             throws DBException {
+
         LOG.debug("findAllWithLimits of UsersActivityFull method starts");
+
         final String SQL_SELECT_ALL_LIMIT = "SELECT SQL_CALC_FOUND_ROWS l.id, u.user_name, a.name, l.time " +
                 "FROM users_activities l " +
                 "         CROSS JOIN users u " +
@@ -389,7 +395,85 @@ public class UsersActivitiesDAO extends AbstractDAO<UsersActivity> {
         return resultList;
     }
 
-    public int getNoOfRecords() throws DBException {
+    public UsersActivity findRecord(int userId, int activityId) throws DBException {
+
+        LOG.debug("findEntityById UsersActivity method starts");
+
+        if (userId <= 0 || activityId <= 0) {
+            LOG.trace("UsersActivity findEntityById : " + Optional.empty());
+            return null;
+        }
+
+        UsersActivity activityRecord = null;
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_USER_ID_ACTIVITY_ID)) {
+
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, activityId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while( resultSet.next() ) {
+                activityRecord = UsersActivity.createUserActivity(
+                        resultSet.getInt("user_id"),
+                        resultSet.getInt("activity_id"));
+                activityRecord.setId(resultSet.getInt("id"));
+                activityRecord.setTime(resultSet.getInt("time"));
+                break;
+            }
+
+        } catch (SQLException e) {
+            LOG.error("Error while getting ActivityRecord : " + e);
+            throw new DBException("Error while getting ActivityRecord", e);
+        }
+        LOG.trace("return user-activity : " + Optional.ofNullable(activityRecord));
+        LOG.debug("findEntityById user activity method terminates");
+        return activityRecord;
+    }
+
+    public List<UsersActivityFull> findAllUserRecordsWithLimits(int userId, int offset, int noOfRecords)
+            throws DBException{
+
+        LOG.debug("findAllUserRecordsWithLimits UsersActivity method starts");
+
+        final String SQL_SELECT_ALL_LIMIT = "SELECT SQL_CALC_FOUND_ROWS l.id, u.user_name, a.name, l.time " +
+                "FROM users_activities l " +
+                "         CROSS JOIN users u " +
+                "                    ON l.user_id = u.user_id " +
+                "         CROSS JOIN activities a " +
+                "                    ON l.activity_id = a.activity_id " +
+                "WHERE u.user_id=" + userId + " ORDER BY user_name LIMIT " + offset + ", " + noOfRecords;
+
+        List<UsersActivityFull> resultList = new ArrayList<>();
+
+        try (Statement stmt = connection.createStatement()) {
+
+            ResultSet resultSet = stmt.executeQuery(SQL_SELECT_ALL_LIMIT);
+
+            while ( resultSet.next() ) {
+                UsersActivityFull activityRecord = new UsersActivityFull();
+                activityRecord.setId(resultSet.getInt("id"));
+                activityRecord.setUser_name(resultSet.getString("user_name"));
+                activityRecord.setActivity_name(resultSet.getString("name"));
+                activityRecord.setTime(resultSet.getInt("time"));
+                resultList.add(activityRecord);
+            }
+            resultSet.close();
+            resultSet = stmt.executeQuery("SELECT FOUND_ROWS()");
+
+            if (resultSet.next())
+                this.noOfRecords = resultSet.getInt(1);
+
+        } catch (SQLException e) {
+            LOG.error("Error while findAllWithLimits records : " + e);
+            throw new DBException("Error while findAllWithLimits records", e);
+        }
+        LOG.trace("findAllWithLimits of UsersActivityFull method result list : " + resultList);
+        LOG.debug("findAllWithLimits of UsersActivityFull method terminates");
+        return resultList;
+    }
+
+    public int getNoOfRecords() {
         return noOfRecords;
     }
+
 }

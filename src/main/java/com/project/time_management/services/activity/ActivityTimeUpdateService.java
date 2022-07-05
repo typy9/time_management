@@ -1,11 +1,8 @@
 package com.project.time_management.services.activity;
 
 import com.project.time_management.dao.DBException;
-import com.project.time_management.dao.UserDAO;
 import com.project.time_management.dao.UsersActivitiesDAO;
-import com.project.time_management.entity.User;
 import com.project.time_management.entity.UsersActivityFull;
-import com.project.time_management.services.LoginService;
 import org.apache.log4j.Logger;
 
 import javax.sql.DataSource;

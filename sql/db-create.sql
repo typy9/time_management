@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `project_db`.`activity_request` (
                                                                `user_id` INT,
                                                                `activity_id` INT,
                                                                `time` INT,
-                                                               `status` ENUM('created', 'approved', 'declined') NOT NULL,
+                                                               `status` ENUM('created', 'approved', 'declined', 'tobedeleted') NOT NULL,
 
                                                                CONSTRAINT FOREIGN KEY (user_id)
                                                                REFERENCES users (user_id)
@@ -120,7 +120,7 @@ INSERT INTO project_db.categories VALUES (DEFAULT, 'break');
 -- Table project_db.activities add data
 -- -----------------------------------------------------
 INSERT INTO project_db.activities VALUES (DEFAULT, 'project management', 1);
-INSERT INTO project_db.activities VALUES (DEFAULT, 'lunch', 3);
+INSERT INTO project_db.activities VALUES (DEFAULT, 'pause', 3);
 INSERT INTO project_db.activities VALUES (DEFAULT, 'admin', 2);
 
 -- -----------------------------------------------------

@@ -4,7 +4,6 @@ package com.project.time_management.servlets.user;
 import com.project.time_management.entity.User;
 import com.project.time_management.helpers.PaginationHelper;
 import com.project.time_management.services.user.AddUserService;
-import com.project.time_management.servlets.activity.ActivityTimeUpdateServlet;
 import org.apache.log4j.Logger;
 
 import javax.annotation.Resource;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @WebServlet("/add_user")
 public class AddUserServlet extends HttpServlet {
@@ -28,7 +26,6 @@ public class AddUserServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-
 //        final Object users = getServletContext().getAttribute("users");
 //
 //        if (!(users instanceof CopyOnWriteArrayList)) {

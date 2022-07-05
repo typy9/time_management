@@ -95,9 +95,13 @@
 
     <form method="post" action="<c:url value='/front_controller'/>">
         <input type="hidden" name="command" value="activity.AddActivity" />
-        <fmt:message key="name" /> <label><input type="text" name="name" required></label><br>
+        <fmt:message key="name" /> <label><input type="text" name="name" required
+                                                 pattern="[a-zA-Z]+" minlength="4" maxlength="10"
+                                                 title="Letters only. Min length 4, max 10."></label><br>
 
-        <fmt:message key="category" /> <label><input type="text" name="category" required></label><br>
+        <fmt:message key="category" /> <label><input type="text" name="category" required
+                                                     pattern="[1-4]{1}"
+                                                     title="Digits only."></label><br>
 
         <input type="submit" value=<fmt:message key="button.ok" /> name="Ok"><br>
     </form>

@@ -2,7 +2,6 @@ package com.project.time_management.servlets.category;
 
 import com.project.time_management.entity.Category;
 import com.project.time_management.services.category.UpdateCategoryService;
-import com.project.time_management.servlets.activity.ActivityTimeUpdateServlet;
 import org.apache.log4j.Logger;
 
 import javax.annotation.Resource;

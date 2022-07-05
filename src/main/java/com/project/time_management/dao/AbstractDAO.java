@@ -31,7 +31,7 @@ public abstract class AbstractDAO <T extends Entity> {
                 statement.close();
             }
         } catch (SQLException e) {
-            // log
+
         }
     }
 

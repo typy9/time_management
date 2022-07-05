@@ -13,8 +13,12 @@ import java.util.StringJoiner;
 public class ActivityDAO extends AbstractDAO<Activity> {
 
     private static final Logger LOG = Logger.getLogger(ActivityDAO.class);
+
+
     private int noOfRecords;
     private static final String SQL_SELECT_ALL = "SELECT * FROM activities ORDER BY activity_id";
+    private static final String SQL_SORT_ALL_BY_CATEGORY = "SELECT * FROM activities ORDER BY activity_category_id";
+    private static final String SQL_SORT_ALL_BY_NAME = "SELECT * FROM activities ORDER BY name";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM activities WHERE activity_id=? ORDER BY activity_id";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM activities WHERE activity_id=?";
     private static final String SQL_DELETE = "DELETE FROM activities WHERE activity_id in(%s)";
@@ -369,7 +373,62 @@ public class ActivityDAO extends AbstractDAO<Activity> {
         return resultList;
     }
 
-    public int getNoOfRecords() throws DBException {
+
+//    public List<Activity> findAllSortedByCategory() throws DBException {
+//
+//        LOG.debug("findAllSortedByCategory method starts");
+//
+//        List<Activity> resultList = new ArrayList<>();
+//
+//        try ( PreparedStatement statement = connection.prepareStatement(SQL_SORT_ALL_BY_CATEGORY)) {
+//
+//            ResultSet resultSet = statement.executeQuery();
+//
+//            while ( resultSet.next() ) {
+//                Activity activity = new Activity();
+//                activity.setActivityId(resultSet.getInt("activity_id"));
+//                activity.setName(resultSet.getString("name"));
+//                activity.setCategory(resultSet.getInt("activity_category_id"));
+//                resultList.add(activity);
+//            }
+//
+//        } catch (SQLException e) {
+//            LOG.error("SQLException : " + e);
+//            throw new DBException("Error while finding all activities", e);
+//        }
+//        LOG.trace("return list : " + resultList);
+//        LOG.debug("findAll method terminates");
+//        return resultList;
+//    }
+
+//    public List<Activity> findAllSortedByName() throws DBException {
+//
+//        LOG.debug("findAllSortedByCategory method starts");
+//
+//        List<Activity> resultList = new ArrayList<>();
+//
+//        try ( PreparedStatement statement = connection.prepareStatement(SQL_SORT_ALL_BY_NAME)) {
+//
+//            ResultSet resultSet = statement.executeQuery();
+//
+//            while ( resultSet.next() ) {
+//                Activity activity = new Activity();
+//                activity.setActivityId(resultSet.getInt("activity_id"));
+//                activity.setName(resultSet.getString("name"));
+//                activity.setCategory(resultSet.getInt("activity_category_id"));
+//                resultList.add(activity);
+//            }
+//
+//        } catch (SQLException e) {
+//            LOG.error("SQLException : " + e);
+//            throw new DBException("Error while finding all activities", e);
+//        }
+//        LOG.trace("return list : " + resultList);
+//        LOG.debug("findAll method terminates");
+//        return resultList;
+//    }
+
+    public int getNoOfRecords() {
         return noOfRecords;
     }
 }

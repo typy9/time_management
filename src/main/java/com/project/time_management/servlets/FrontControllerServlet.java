@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 public class FrontControllerServlet extends HttpServlet {
 
     private static final Logger LOG = Logger.getLogger(FrontControllerServlet.class);
+
     @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response)

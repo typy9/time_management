@@ -20,19 +20,15 @@ import java.util.List;
 public class DisplayActivitiesServlet extends HttpServlet {
 
     private static final Logger LOG = Logger.getLogger(DisplayActivitiesServlet.class);
-//    List<Activity> activities;
     @Resource(name="jdbc/project")
     DataSource dataSource;
 
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     @Override
     public void init() throws ServletException {
-//        final Object activities = getServletContext().getAttribute("activities");
-//
-//        if (!(activities instanceof CopyOnWriteArrayList)) {
-//            throw new IllegalStateException("Activities repo did not initialize!");
-//        } else {
-//            this.activities = (CopyOnWriteArrayList<Activity>) activities;
-//        }
     }
 
     @Override

@@ -14,6 +14,7 @@ import java.io.IOException;
 public class DisplayRegistrationServlet extends HttpServlet {
 
     private static final Logger LOG = Logger.getLogger(DisplayRegistrationServlet.class);
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {

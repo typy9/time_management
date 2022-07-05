@@ -24,12 +24,15 @@ public class FilterByCategoryServlet extends DisplayActivitiesServlet {
         final int id = Integer.parseInt(request.getParameter("id"));
 
         FilterByCategoryService processRequest = new FilterByCategoryService(dataSource);
+
         List<Activity> activities = processRequest.getActivities(id);
+
+        System.out.println("activities ----> " + activities);
 
         request.setAttribute("currentPage", 1);
         request.setAttribute("activities", activities);
-        response.sendRedirect(request.getContextPath() + "/activities_list");
-//        request.getRequestDispatcher("/activities_list.jsp").forward(request, response);
+//        response.sendRedirect(request.getContextPath() + "/activities_list");
+        request.getRequestDispatcher("/activities_list.jsp").forward(request, response);
         LOG.debug("Finish executing doPost");
     }
 }

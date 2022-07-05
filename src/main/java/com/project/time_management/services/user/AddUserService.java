@@ -5,7 +5,6 @@ import com.project.time_management.dao.UserCredentialsDAO;
 import com.project.time_management.dao.UserDAO;
 import com.project.time_management.entity.User;
 import com.project.time_management.entity.UserCredentials;
-import com.project.time_management.services.request.DisplayRequestsService;
 import com.project.time_management.utility.Utility;
 import org.apache.log4j.Logger;
 
@@ -19,6 +18,7 @@ public class AddUserService {
 
     private static final Logger LOG = Logger.getLogger(AddUserService.class);
     private final DataSource dataSource;
+
     public int noOfPages;
 
     public AddUserService(DataSource dataSource) {

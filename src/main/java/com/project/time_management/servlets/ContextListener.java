@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ContextListener implements ServletContextListener {
 
     private static final Logger LOG = Logger.getLogger(ContextListener.class);
+
     private AtomicReference<UserCredentialsDAO> dao;
     private AtomicReference<UsersActivitiesDAO> usersActivitiesDao;
     private List<User> users;

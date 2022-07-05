@@ -26,11 +26,10 @@ public class SortActivityByNameService {
         List<Activity> activities;
 
         try (Connection conn = dataSource.getConnection()) {
+
             ActivityDAO activityDAO = new ActivityDAO(conn);
-            activities = activityDAO.findAll();
-            activities = activities.stream()
-                    .sorted(Comparator.comparing(Activity::getName))
-                    .collect(Collectors.toList());
+            activities = activityDAO.sortByName();
+
         } catch (SQLException e) {
             LOG.error("SQLException while getUserActivityForUpdate");
             throw new RuntimeException(e);

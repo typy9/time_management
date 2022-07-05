@@ -20,8 +20,11 @@ public class FilterByCategoryService {
     }
 
     public List<Activity> getActivities(int id) {
+
         LOG.debug("Start executing getActivities");
+
         List<Activity> activities = null;
+
         if (id > 0) {
             try (Connection conn = dataSource.getConnection()) {
 
@@ -36,7 +39,9 @@ public class FilterByCategoryService {
                 throw new RuntimeException(e);
             }
         }
+
         LOG.debug("Finished executing getActivities");
+
         return activities;
     }
 

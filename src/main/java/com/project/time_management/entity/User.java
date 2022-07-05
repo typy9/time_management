@@ -11,10 +11,16 @@ public class User extends Entity {
     public User() {
     }
 
+    /**
+     * Constructor for tests
+     * @param name user's name
+     * @param role user's role
+     */
     public User(String name, String role) {
         this.name = name;
         this.role = role;
     }
+
 
     public int getUserId() {
         return userId;

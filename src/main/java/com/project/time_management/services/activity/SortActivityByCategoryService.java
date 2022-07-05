@@ -26,11 +26,14 @@ public class SortActivityByCategoryService {
         List<Activity> activities;
         try (Connection conn = dataSource.getConnection()) {
             ActivityDAO activityDAO = new ActivityDAO(conn);
-            activities = activityDAO.findAll();
 
-            activities = activities.stream()
-                    .sorted(Comparator.comparing(Activity::getCategory))
-                    .collect(Collectors.toList());
+            activities = activityDAO.sortByCategory();
+//            activities = activityDAO.findAll();
+//
+//            activities = activities.stream()
+//                    .sorted(Comparator.comparing(Activity::getCategory))
+//                    .collect(Collectors.toList());
+
         } catch (SQLException e) {
             LOG.error("SQLException while getUserActivityForUpdate");
             throw new RuntimeException(e);

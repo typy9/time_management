@@ -3,7 +3,6 @@ package com.project.time_management.servlets.report;
 import com.project.time_management.entity.UsersActivityFull;
 import com.project.time_management.helpers.PaginationHelper;
 import com.project.time_management.services.report.UsersReportService;
-import com.project.time_management.servlets.filters.AuthenticationFilter;
 import org.apache.log4j.Logger;
 
 import javax.annotation.Resource;
@@ -25,6 +24,10 @@ public class UsersReportServlet extends HttpServlet {
 //    private List<UsersActivityFull> usersActivitiesFull;
     @Resource(name="jdbc/project")
     DataSource dataSource;
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Override
     public void init() throws ServletException {

@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,18 +24,21 @@ public class UpdateCategoryService {
 
     public Category getCategoryForUpdate(String id) {
         LOG.debug("Start executing getCategoryForUpdate");
-        Category category;
 
-        try (Connection conn = dataSource.getConnection()) {
-            CategoryDAO categoryDAO = new CategoryDAO(conn);
-            Optional<Category> categoryToUpdate = categoryDAO.findEntityById(Integer.parseInt(id));
-            category = categoryToUpdate.get();
-        } catch (SQLException e) {
-            LOG.error("SQLException while getCategoryForUpdate");
-            throw new RuntimeException(e);
-        } catch (DBException e) {
-            LOG.error("DBException while getCategoryForUpdate");
-            throw new RuntimeException(e);
+        Category category = null;
+
+        if (idIsNumber(id)) {
+            try (Connection conn = dataSource.getConnection()) {
+                CategoryDAO categoryDAO = new CategoryDAO(conn);
+                Optional<Category> categoryToUpdate = categoryDAO.findEntityById(Integer.parseInt(id));
+                category = categoryToUpdate.get();
+            } catch (SQLException e) {
+                LOG.error("SQLException while getCategoryForUpdate");
+                throw new RuntimeException(e);
+            } catch (DBException e) {
+                LOG.error("DBException while getCategoryForUpdate");
+                throw new RuntimeException(e);
+            }
         }
         LOG.debug("Finished executing getCategoryForUpdate");
         return category;
@@ -43,6 +47,8 @@ public class UpdateCategoryService {
     public List<Category> updateCategory(int id, String name) {
         LOG.debug("Start executing updateCategory");
         List<Category> categories ;
+
+        if (id <= 0 || name.isEmpty()) return Collections.emptyList();
 
         try (Connection conn = dataSource.getConnection()) {
             CategoryDAO categoryDAO = new CategoryDAO(conn);
@@ -62,5 +68,9 @@ public class UpdateCategoryService {
         }
         LOG.debug("Finished executing updateCategory");
         return categories ;
+    }
+
+    private boolean idIsNumber(String id) {
+        return id != null && (id.length() > 0) && id.matches("[+]?\\d+");
     }
 }

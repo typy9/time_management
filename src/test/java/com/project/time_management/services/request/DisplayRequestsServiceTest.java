@@ -25,6 +25,6 @@ public class DisplayRequestsServiceTest {
 
     @Test
     public void displayRequests() {
-        assertNotNull(service.displayRequests());
+        assertNotNull(service.getRequests(1, 2));
     }
 }

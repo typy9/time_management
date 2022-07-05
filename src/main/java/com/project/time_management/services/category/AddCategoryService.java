@@ -2,20 +2,13 @@ package com.project.time_management.services.category;
 
 import com.project.time_management.dao.CategoryDAO;
 import com.project.time_management.dao.DBException;
-import com.project.time_management.dao.UserCredentialsDAO;
-import com.project.time_management.dao.UserDAO;
 import com.project.time_management.entity.Category;
-import com.project.time_management.entity.User;
-import com.project.time_management.entity.UserCredentials;
-import com.project.time_management.services.activity.SortActivityByNameService;
 import org.apache.log4j.Logger;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class AddCategoryService {

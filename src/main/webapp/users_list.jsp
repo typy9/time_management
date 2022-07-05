@@ -61,16 +61,6 @@
             currentPage="${requestScope.currentPage}"
             noOfPages="${requestScope.noOfPages}"
             page="users_list"/>
-<%--    <c:forEach begin="1" end="${requestScope.noOfPages}" var="i">--%>
-<%--        <c:choose>--%>
-<%--            <c:when test="${requestScope.currentPage eq i}">--%>
-<%--                <td>${i}</td>--%>
-<%--            </c:when>--%>
-<%--            <c:otherwise>--%>
-<%--                <td><a href="users_list?page=${i}">${i}</a></td>--%>
-<%--            </c:otherwise>--%>
-<%--        </c:choose>--%>
-<%--    </c:forEach>--%>
 
     <%--For displaying Next link --%>
     <c:if test="${requestScope.currentPage lt requestScope.noOfPages}">

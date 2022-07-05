@@ -12,11 +12,11 @@ public class DisplayActivitiesServiceTest {
     DisplayActivitiesService service;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             dataSource = new MysqlConnectionPoolDataSource();
-            dataSource.setURL("jdbc:mysql://127.0.0.1:3306/project_db");
+            dataSource.setURL("jdbc:mysql://127.0.0.1:3306/test_db");
             dataSource.setUser("root");
             dataSource.setPassword("Bajeu4fg5$");
         } catch(ClassNotFoundException ex) {

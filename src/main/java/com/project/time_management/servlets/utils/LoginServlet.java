@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet{
             LOG.trace("user is null");
             request.setAttribute("errorMessage", "Cannot find user with such login/password");
             response.sendRedirect(request.getContextPath() + "/display_registration");
-//            request.getRequestDispatcher("/registration.jsp").forward(request, response);
+
         } else {
             String role =  user.getRole();
             if (role.equals("admin")) {
@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet{
                 request.getSession().setAttribute("user", user);
                 request.getSession().setAttribute("role", role);
                 response.sendRedirect(request.getContextPath() + "/admin_cabinet");
-//                request.getRequestDispatcher("/admin_menu.jsp").forward(request, response);
+
             } else {
                 LOG.trace("user role is user");
                 List<UsersActivityFull> userActivities = loginService.processUserActivities(user, usersActivitiesDao);
@@ -63,7 +63,6 @@ public class LoginServlet extends HttpServlet{
                 request.getSession().setAttribute("role", role);
                 request.getSession().setAttribute("userActivities", userActivities);
                 response.sendRedirect(request.getContextPath() + "/user_cabinet");
-//                request.getRequestDispatcher("/user_menu.jsp").forward(request, response);
                 }
             }
         LOG.debug("Finish executing doPost");

@@ -3,7 +3,8 @@ package com.project.time_management.entity;
 public enum RequestStatus {
     CREATED("created"),
     APPROVED("approved"),
-    DECLINED("declined");
+    DECLINED("declined"),
+    TOBEDELETED("tobedeleted");
 
     private final String value;
     RequestStatus(String value) {

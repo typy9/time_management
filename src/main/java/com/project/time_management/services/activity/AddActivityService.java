@@ -3,7 +3,6 @@ package com.project.time_management.services.activity;
 import com.project.time_management.dao.ActivityDAO;
 import com.project.time_management.dao.DBException;
 import com.project.time_management.entity.Activity;
-import com.project.time_management.services.LoginService;
 import org.apache.log4j.Logger;
 
 import javax.sql.DataSource;

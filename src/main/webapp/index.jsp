@@ -77,7 +77,6 @@
         type="submit" class="button" value="<fmt:message key="button.registration" />" >
 </form>
 <br/>
-<%--<a href="hello-servlet">Hello Servlet</a>--%>
 
 </body>
 </html>

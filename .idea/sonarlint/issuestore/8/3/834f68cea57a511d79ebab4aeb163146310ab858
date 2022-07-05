@@ -1,0 +1,12 @@
+
+k	java:S117!"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ú˜½ùÿÿÿÿ
+f	java:S117]"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ĞêË 
+}
+java:S4165:"bRemove this useless assignment; "time" already holds the assigned value along all execution paths.(™ıËßıÿÿÿÿ
+o	java:S116"URename this field "request_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ª–Ïåüÿÿÿÿ
+c	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ôì¾Ú
+h	java:S100!"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ú˜½ùÿÿÿÿ
+L
+java:S11729"1Remove this unused method parameter "activityId".(Ì¤ÒŒúÿÿÿÿ
+J
+java:S1656:"/Remove or correct this useless self-assignment.(™ıËßıÿÿÿÿ

@@ -24,7 +24,9 @@ public class SortActivityByNameServlet extends DisplayActivitiesServlet {
             throws ServletException, IOException {
 
         LOG.debug("Start executing doGet");
+
         SortActivityByNameService processRequest = new SortActivityByNameService(dataSource);
+
         List<Activity> activities = processRequest.getSortedActivities();
 
         request.setAttribute("currentPage", 1);

@@ -5,7 +5,6 @@ import com.project.time_management.dao.RequestDAO;
 import com.project.time_management.dao.UsersActivitiesDAO;
 import com.project.time_management.entity.Request;
 import com.project.time_management.entity.UsersActivity;
-import com.project.time_management.services.category.AddCategoryService;
 import org.apache.log4j.Logger;
 
 import javax.sql.DataSource;

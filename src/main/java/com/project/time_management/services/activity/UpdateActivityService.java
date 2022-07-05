@@ -22,7 +22,9 @@ public class UpdateActivityService {
 
     public Activity getActivityForUpdate(String id) {
         LOG.debug("Start executing getActivityForUpdate");
+
         Activity activity = null;
+
         if (idIsNumber(id)) {
             try (Connection conn = dataSource.getConnection()) {
 
@@ -47,7 +49,7 @@ public class UpdateActivityService {
         LOG.debug("Start executing updateActivity");
 
         List<Activity> activities = null;
-        if (idIsNumber(id)) {
+        if (idIsNumber(id) && idIsNumber(String.valueOf(category))) {
             try (Connection conn = dataSource.getConnection()) {
                 ActivityDAO activityDAO = new ActivityDAO(conn);
                 Optional<Activity> activityToUpdate = activityDAO.findEntityById(Integer.parseInt(id));

@@ -1,7 +1,6 @@
 package com.project.time_management.services;
 
 import com.mysql.cj.jdbc.MysqlConnectionPoolDataSource;
-import com.project.time_management.dao.ConnectionPool;
 import org.junit.Before;
 import org.junit.Test;
 

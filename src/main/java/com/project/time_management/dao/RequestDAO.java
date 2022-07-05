@@ -5,13 +5,13 @@ import com.project.time_management.entity.RequestStatus;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.StringJoiner;
+import java.util.*;
 
 public class RequestDAO extends AbstractDAO<Request> {
 
+
+
+    private int noOfRecords;
     private static final Logger LOG = Logger.getLogger(RequestDAO.class);
     private static final String SQL_SELECT_ALL = "SELECT * FROM activity_request ORDER BY request_id";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM activity_request " +
@@ -26,6 +26,12 @@ public class RequestDAO extends AbstractDAO<Request> {
             "SET status=? WHERE request_id=?";
     private static final String SQL_GET_STATUS = "SELECT status FROM activity_request " +
             "WHERE request_id=?";
+
+    private static final String SQL_GET_REQUEST_BY_USER_ACTIVITY_STATUS = "SELECT * FROM activity_request " +
+            "WHERE user_id=? AND activity_id=? AND status=? ORDER BY request_id";
+
+    private static final String SQL_UPDATE_STATUS_BY_USER_ACTIVITY_ID = "UPDATE activity_request " +
+            "SET status=? WHERE user_id=? AND activity_id=?";
 
     public RequestDAO(Connection connection) {
         super(connection);
@@ -263,4 +269,114 @@ public class RequestDAO extends AbstractDAO<Request> {
         LOG.debug("getStatusById request method terminates");
         return result;
     }
+
+    public boolean findByUserIdActivityIdStatus(int requestUserId, int requestActivityId, String status)
+            throws DBException{
+
+        LOG.debug("findByUserIdActivityId request method starts");
+        if (requestUserId <= 0 || requestActivityId <= 0 || status.isEmpty()) {
+            LOG.trace("invalid user id or activity id, request findByUserIdActivityId or status " );
+            throw new DBException("invalid user id or activity id, request findByUserIdActivityId, or status");
+        }
+
+
+        Request request = null;
+
+        try(PreparedStatement preparedStatement =
+                    connection.prepareStatement(SQL_GET_REQUEST_BY_USER_ACTIVITY_STATUS)) {
+            preparedStatement.setInt(1, requestUserId);
+            preparedStatement.setInt(2, requestActivityId);
+            preparedStatement.setString(3, status);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                request = Request.createRequest(
+                        resultSet.getInt("request_id"),
+                        RequestStatus.valueOf(resultSet.getString("status").toUpperCase()));
+                request.setUserId(resultSet.getInt("user_id"));
+                request.setActivityId(resultSet.getInt("activity_id"));
+                request.setTime(resultSet.getInt("time"));
+                break;
+            }
+
+        } catch (SQLException e) {
+            LOG.error("SQLException : " + e);
+            throw new DBException("Error while getting request status", e);
+        }
+        LOG.trace("findByUserIdActivityId request method return : " + request != null);
+        LOG.debug("findByUserIdActivityId request method terminates");
+
+        return request != null;
+    }
+
+    public boolean updateStatusByUserIdActivityId(int requestUserId, int requestActivityId, String status)
+            throws DBException{
+
+
+        if (requestUserId <= 0 || requestActivityId <= 0 ||
+                status == null || status.length() <= 0) {
+            LOG.trace("invalid id or status, request updateStatusByUserIdActivityId : " + false);
+            return false;
+        }
+
+        boolean rowsUpdate;
+
+        try(PreparedStatement preparedStatement =
+                    connection.prepareStatement(SQL_UPDATE_STATUS_BY_USER_ACTIVITY_ID)) {
+            preparedStatement.setString(1, status);
+            preparedStatement.setInt(2, requestUserId);
+            preparedStatement.setInt(3, requestActivityId);
+            preparedStatement.executeUpdate();
+            rowsUpdate = true;
+
+        } catch (SQLException e) {
+            LOG.error("SQLException : " + e);
+            throw new DBException("Error while updating request status", e);
+        }
+        LOG.trace("updateStatusById request method return : " + rowsUpdate);
+        LOG.debug("updateStatusById request method terminates");
+        return rowsUpdate;
+    }
+
+    public List<Request> findAllWithLimits(int offset, int noOfRecords)
+            throws DBException {
+
+        LOG.debug("findAllWithLimits requests method starts");
+
+        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM activity_request LIMIT "
+                + offset + ", " + noOfRecords;
+
+        List<Request> resultList = new ArrayList<>();
+        Request request;
+
+        try (Statement stmt = connection.createStatement()) {
+
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                request = new Request();
+                request.setRequest_id(resultSet.getInt("request_id"));
+                request.setUserId(resultSet.getInt("user_id"));
+                request.setActivityId(resultSet.getInt("activity_id"));
+                request.setTime(resultSet.getInt("time"));
+                request.setStatus(resultSet.getString("status"));
+                resultList.add(request);
+            }
+            resultSet.close();
+            resultSet = stmt.executeQuery("SELECT FOUND_ROWS()");
+            if (resultSet.next())
+                this.noOfRecords = resultSet.getInt(1);
+        } catch (SQLException e) {
+            LOG.error("SQLException : " + e);
+            throw new RuntimeException(e);
+        }
+        LOG.trace("findAllWithLimits request method returns list : " + resultList);
+        LOG.debug("findAllWithLimits request method terminates");
+        return resultList;
+    }
+
+    public int getNoOfRecords() throws DBException {
+        return noOfRecords;
+    }
+
+
 }

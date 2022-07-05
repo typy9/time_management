@@ -15,7 +15,9 @@ public class PaginationHelper {
     public int getPageParameter (HttpServletRequest req) {
         LOG.debug("PaginationHelper invoked");
         int page = 1;
-        if(req.getParameter("page") != null) {
+
+        if((req.getParameter("page") != null)
+                && (Integer.parseInt(req.getParameter("page")) > 0)) {
             page = Integer.parseInt(req.getParameter("page"));
         }
         LOG.trace("Page parameter --> " + page);

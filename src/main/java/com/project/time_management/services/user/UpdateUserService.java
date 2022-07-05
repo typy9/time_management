@@ -24,18 +24,20 @@ public class UpdateUserService {
         LOG.debug("Start executing getUserForUpdate");
         User user = null;
 
-        try (Connection conn = dataSource.getConnection()){
-            UserDAO userDAO = new UserDAO(conn);
-            Optional<User> userToUpdate = userDAO.findEntityById(Integer.parseInt(id));
-            if (userToUpdate.isPresent()) {
-                user = userToUpdate.get();
+        if (idIsNumber(id)) {
+            try (Connection conn = dataSource.getConnection()) {
+                UserDAO userDAO = new UserDAO(conn);
+                Optional<User> userToUpdate = userDAO.findEntityById(Integer.parseInt(id));
+                if (userToUpdate.isPresent()) {
+                    user = userToUpdate.get();
+                }
+            } catch (SQLException e) {
+                LOG.error("SQLException while getUserForUpdate");
+                throw new RuntimeException(e);
+            } catch (DBException e) {
+                LOG.error("DBException while getUserForUpdate");
+                throw new RuntimeException(e);
             }
-        } catch (SQLException e) {
-            LOG.error("SQLException while getUserForUpdate");
-            throw new RuntimeException(e);
-        } catch (DBException e) {
-            LOG.error("DBException while getUserForUpdate");
-            throw new RuntimeException(e);
         }
         LOG.debug("Finished executing getUserForUpdate");
         return user;
@@ -43,27 +45,34 @@ public class UpdateUserService {
 
     public List<User> updateUser(String id, String name, String role) {
         LOG.debug("Start executing updateUser");
-        List<User> users;
 
-        try (Connection conn = dataSource.getConnection()) {
-            UserDAO userDAO = new UserDAO(conn);
-            Optional<User> userToUpdate = userDAO.findEntityById(Integer.parseInt(id));
-            if (userToUpdate.isPresent()) {
-                User user = userToUpdate.get();
-                user.setName(name);
-                user.setRole(role);
-                userDAO.update(user);
+        List<User> users = null;
+
+        if (idIsNumber(id)) {
+            try (Connection conn = dataSource.getConnection()) {
+                UserDAO userDAO = new UserDAO(conn);
+                Optional<User> userToUpdate = userDAO.findEntityById(Integer.parseInt(id));
+                if (userToUpdate.isPresent()) {
+                    User user = userToUpdate.get();
+                    user.setName(name);
+                    user.setRole(role);
+                    userDAO.update(user);
+                }
+                users = userDAO.findAll();
+
+            } catch (SQLException e) {
+                LOG.error("SQLException while updateUser");
+                throw new RuntimeException(e);
+            } catch (DBException e) {
+                LOG.error("DBException while updateUser");
+                throw new RuntimeException(e);
             }
-            users = userDAO.findAll();
-
-        } catch (SQLException e) {
-            LOG.error("SQLException while updateUser");
-            throw new RuntimeException(e);
-        } catch (DBException e) {
-            LOG.error("DBException while updateUser");
-            throw new RuntimeException(e);
         }
         LOG.debug("Finished executing updateUser");
         return users;
+    }
+
+    private boolean idIsNumber(String id) {
+        return id != null && (id.length() > 0) && id.matches("[+]?\\d+");
     }
 }

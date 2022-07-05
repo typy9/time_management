@@ -24,6 +24,10 @@ public class DisplayCategoriesServlet extends HttpServlet {
     @Resource(name="jdbc/project")
     DataSource dataSource;
 
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     @Override
     public void init() throws ServletException {
 //        final Object categories = getServletContext().getAttribute("categories");
