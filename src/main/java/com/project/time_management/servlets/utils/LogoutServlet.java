@@ -1,6 +1,6 @@
 package com.project.time_management.servlets.utils;
 
-import com.project.time_management.servlets.activity.ActivityTimeUpdateServlet;
+
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -26,10 +26,7 @@ public class LogoutServlet extends HttpServlet {
         LOG.debug("Start executing doGet");
         final HttpSession session = req.getSession();
 
-        session.removeAttribute("password");
-        session.removeAttribute("login");
-        session.removeAttribute("role");
-        session.removeAttribute("user");
+        session.invalidate();
 
         resp.sendRedirect(super.getServletContext().getContextPath());
         LOG.debug("Finish executing doGet");

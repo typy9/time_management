@@ -38,7 +38,6 @@ class DisplayUserServletTest {
 
 
     MysqlConnectionPoolDataSource dataSource;
-//    UserDAO userDAO;
 
     @BeforeEach
     public void setUp() throws IOException {

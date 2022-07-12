@@ -374,7 +374,7 @@ public class RequestDAO extends AbstractDAO<Request> {
         return resultList;
     }
 
-    public int getNoOfRecords() throws DBException {
+    public int getNoOfRecords() {
         return noOfRecords;
     }
 

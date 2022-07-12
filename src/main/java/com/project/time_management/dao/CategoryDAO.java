@@ -14,6 +14,8 @@ public class CategoryDAO extends AbstractDAO<Category> {
     private static final Logger LOG = Logger.getLogger(CategoryDAO.class);
 
     private int noOfRecords;
+
+    private static final String CATEGORY_ID = "category_id";
     private static final String SQL_SELECT_ALL = "SELECT category_id, name FROM categories ORDER BY category_id";
     private static final String SQL_SELECT_BY_ID = "SELECT category_id, name FROM categories" +
             " WHERE category_id=? ORDER BY category_id";
@@ -39,13 +41,13 @@ public class CategoryDAO extends AbstractDAO<Category> {
 
             while ( resultSet.next() ) {
                 Category category = new Category();
-                category.setCategoryId(resultSet.getInt("category_id"));
+                category.setCategoryId(resultSet.getInt(CATEGORY_ID));
                 category.setName(resultSet.getString("name"));
                 resultList.add(category);
             }
 
         } catch (SQLException e) {
-            LOG.error("SQLException : " + e);
+            LOG.error("SQLException thrown : " + e);
             throw new DBException("Error while finding all activity categories", e);
         }
         LOG.trace("return list : " + resultList);
@@ -72,7 +74,7 @@ public class CategoryDAO extends AbstractDAO<Category> {
 
             while( resultSet.next() ) {
                 category = Category.createCategory(resultSet.getString("name"));
-                category.setCategoryId(resultSet.getInt("category_id"));
+                category.setCategoryId(resultSet.getInt(CATEGORY_ID));
                 break;
             }
 
@@ -207,7 +209,7 @@ public class CategoryDAO extends AbstractDAO<Category> {
             ResultSet resultSet = stmt.executeQuery(SQL_SELECT_ALL_LIMIT);
             while (resultSet.next()) {
                 category = new Category();
-                category.setCategoryId(resultSet.getInt("category_id"));
+                category.setCategoryId(resultSet.getInt(CATEGORY_ID));
                 category.setName(resultSet.getString("name"));
                 resultList.add(category);
             }
@@ -224,7 +226,7 @@ public class CategoryDAO extends AbstractDAO<Category> {
         return resultList;
     }
 
-    public int getNoOfRecords() throws DBException {
+    public int getNoOfRecords() {
         return noOfRecords;
     }
 }

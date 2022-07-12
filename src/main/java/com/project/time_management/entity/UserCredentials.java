@@ -6,8 +6,7 @@ public class UserCredentials extends Entity {
     private String login;
     private String password;
 
-    public UserCredentials(int userId) {
-        this.userId = userId;
+    public UserCredentials() {
     }
 
     public UserCredentials(int userId, String login, String password) {
@@ -56,9 +55,11 @@ public class UserCredentials extends Entity {
         this.password = password;
     }
 
+
+
     @Override
     public String toString() {
-        return "UserCredentials{" +
+        return "\n UserCredentials{" +
                 "id=" + id +
                 ", userId=" + userId +
                 ", login='" + login + '\'' +

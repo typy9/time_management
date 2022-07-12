@@ -3,7 +3,6 @@ package com.project.time_management.servlets.filters;
 import org.apache.log4j.Logger;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
 public class EncodingFilter implements Filter {

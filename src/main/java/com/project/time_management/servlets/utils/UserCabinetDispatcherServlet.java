@@ -26,6 +26,10 @@ public class UserCabinetDispatcherServlet extends HttpServlet {
     @Resource(name="jdbc/project")
     DataSource dataSource;
 
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response)
@@ -59,4 +63,5 @@ public class UserCabinetDispatcherServlet extends HttpServlet {
 
         LOG.debug("Finish executing doGet");
     }
+
 }

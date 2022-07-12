@@ -11,9 +11,12 @@ public class UsersActivitiesDAO extends AbstractDAO<UsersActivity> {
     private static final Logger LOG = Logger.getLogger(UsersActivitiesDAO.class);
 
     private int noOfRecords;
+
+    private static final String USER_ID = "user_id";
+    private static final String ACTIVITY_ID = "activity_id";
+    private static final String USER_NAME = "user_name";
     private static final String SQL_SELECT_ALL = "SELECT * FROM users_activities ORDER BY id";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM users_activities WHERE id=? ORDER BY id";
-
     private static final String SQL_SELECT_BY_USER_ID_ACTIVITY_ID = "SELECT * FROM users_activities " +
             "WHERE user_id=? AND activity_id=? ORDER BY id";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM users_activities WHERE id=?";
@@ -24,7 +27,6 @@ public class UsersActivitiesDAO extends AbstractDAO<UsersActivity> {
                                                                 "FROM users_activities " +
                                                                 "GROUP BY activity_id " +
                                                                 "ORDER BY COUNT(user_id) DESC";
-
     private static final String SQL_SELECT_ALL_RECORDS = "SELECT l.id, u.user_name, a.name, l.time " +
             "FROM users_activities l " +
             "         CROSS JOIN users u " +
@@ -59,8 +61,8 @@ public class UsersActivitiesDAO extends AbstractDAO<UsersActivity> {
             while ( resultSet.next() ) {
                 UsersActivity activityRecord = new UsersActivity();
                 activityRecord.setId(resultSet.getInt("id"));
-                activityRecord.setUser_id(resultSet.getInt("user_id"));
-                activityRecord.setActivity_id(resultSet.getInt("activity_id"));
+                activityRecord.setUser_id(resultSet.getInt(USER_ID));
+                activityRecord.setActivity_id(resultSet.getInt(ACTIVITY_ID));
                 activityRecord.setTime(resultSet.getInt("time"));
                 resultList.add(activityRecord);
             }
@@ -90,16 +92,16 @@ public class UsersActivitiesDAO extends AbstractDAO<UsersActivity> {
 
             while( resultSet.next() ) {
                 activityRecord = UsersActivity.createUserActivity(
-                        resultSet.getInt("user_id"),
-                        resultSet.getInt("activity_id"));
+                        resultSet.getInt(USER_ID),
+                        resultSet.getInt(ACTIVITY_ID));
                 activityRecord.setId(resultSet.getInt("id"));
                 activityRecord.setTime(resultSet.getInt("time"));
                 break;
             }
 
         } catch (SQLException e) {
-            LOG.error("Error while getting ActivityRecord : " + e);
-            throw new DBException("Error while getting ActivityRecord", e);
+            LOG.error("Error while getting ActivityRecord in findEntityById() : " + e);
+            throw new DBException("Error while getting ActivityRecord in findEntityById()", e);
         }
         LOG.trace("return user-activity : " + Optional.ofNullable(activityRecord));
         LOG.debug("findEntityById user activity method terminates");
@@ -227,7 +229,7 @@ public class UsersActivitiesDAO extends AbstractDAO<UsersActivity> {
 
             while ( resultSet.next() ) {
                 UsersActivity activityRecord = new UsersActivity();
-                activityRecord.setActivity_id(resultSet.getInt("activity_id"));
+                activityRecord.setActivity_id(resultSet.getInt(ACTIVITY_ID));
                 resultList.add(activityRecord);
             }
 
@@ -250,7 +252,7 @@ public class UsersActivitiesDAO extends AbstractDAO<UsersActivity> {
             while ( resultSet.next() ) {
                 UsersActivityFull activityRecord = new UsersActivityFull();
                 activityRecord.setId(resultSet.getInt("id"));
-                activityRecord.setUser_name(resultSet.getString("user_name"));
+                activityRecord.setUser_name(resultSet.getString(USER_NAME));
                 activityRecord.setActivity_name(resultSet.getString("name"));
                 activityRecord.setTime(resultSet.getInt("time"));
                 resultList.add(activityRecord);
@@ -314,7 +316,7 @@ public class UsersActivitiesDAO extends AbstractDAO<UsersActivity> {
 
             while( resultSet.next() ) {
                 activityRecord = UsersActivityFull.createUserActivity(
-                        resultSet.getString("user_name"),
+                        resultSet.getString(USER_NAME),
                         resultSet.getString("name"));
                 activityRecord.setId(resultSet.getInt("id"));
                 activityRecord.setTime(resultSet.getInt("time"));
@@ -322,8 +324,8 @@ public class UsersActivitiesDAO extends AbstractDAO<UsersActivity> {
             }
 
         } catch (SQLException e) {
-            LOG.error("Error while getting ActivityRecord: " + e);
-            throw new DBException("Error while getting ActivityRecord", e);
+            LOG.error("Error while getting ActivityRecord in findEntityByActivityId() : " + e);
+            throw new DBException("Error while getting ActivityRecord in findEntityByActivityId()", e);
         }
         LOG.trace("findEntityByActivityId of UsersActivityFull method result list : "
                 + Optional.ofNullable(activityRecord));
@@ -375,7 +377,7 @@ public class UsersActivitiesDAO extends AbstractDAO<UsersActivity> {
             while ( resultSet.next() ) {
                 UsersActivityFull activityRecord = new UsersActivityFull();
                 activityRecord.setId(resultSet.getInt("id"));
-                activityRecord.setUser_name(resultSet.getString("user_name"));
+                activityRecord.setUser_name(resultSet.getString(USER_NAME));
                 activityRecord.setActivity_name(resultSet.getString("name"));
                 activityRecord.setTime(resultSet.getInt("time"));
                 resultList.add(activityRecord);
@@ -414,16 +416,16 @@ public class UsersActivitiesDAO extends AbstractDAO<UsersActivity> {
 
             while( resultSet.next() ) {
                 activityRecord = UsersActivity.createUserActivity(
-                        resultSet.getInt("user_id"),
-                        resultSet.getInt("activity_id"));
+                        resultSet.getInt(USER_ID),
+                        resultSet.getInt(ACTIVITY_ID));
                 activityRecord.setId(resultSet.getInt("id"));
                 activityRecord.setTime(resultSet.getInt("time"));
                 break;
             }
 
         } catch (SQLException e) {
-            LOG.error("Error while getting ActivityRecord : " + e);
-            throw new DBException("Error while getting ActivityRecord", e);
+            LOG.error("Error while getting ActivityRecord in findRecord() : " + e);
+            throw new DBException("Error while getting ActivityRecord in findRecord()", e);
         }
         LOG.trace("return user-activity : " + Optional.ofNullable(activityRecord));
         LOG.debug("findEntityById user activity method terminates");
@@ -452,7 +454,7 @@ public class UsersActivitiesDAO extends AbstractDAO<UsersActivity> {
             while ( resultSet.next() ) {
                 UsersActivityFull activityRecord = new UsersActivityFull();
                 activityRecord.setId(resultSet.getInt("id"));
-                activityRecord.setUser_name(resultSet.getString("user_name"));
+                activityRecord.setUser_name(resultSet.getString(USER_NAME));
                 activityRecord.setActivity_name(resultSet.getString("name"));
                 activityRecord.setTime(resultSet.getInt("time"));
                 resultList.add(activityRecord);

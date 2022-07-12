@@ -1,6 +1,5 @@
 package com.project.time_management.helpers;
 
-import com.project.time_management.servlets.filters.AuthenticationFilter;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.Map;
  */
 public class AuthenticationHelper {
 
-    private static final Logger LOG = Logger.getLogger(AuthenticationFilter.class);
+    private static final Logger LOG = Logger.getLogger(AuthenticationHelper.class);
 
     public boolean accessAllowed(String command, String userRole,
                                  List<String> outOfControl,

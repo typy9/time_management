@@ -69,6 +69,6 @@ class FilterByCategoryServletTest {
         mockServlet.setDataSource(dataSource);
         mockServlet.doPost(mockRequest, mockResponse);
 
-        verify(mockResponse, times(1)).sendRedirect("/activities_list");
+        verify(mockRequest, times(1)).getRequestDispatcher("/activities_list.jsp");
     }
 }

@@ -12,7 +12,7 @@ import java.util.*;
 public class AuthenticationFilter implements Filter {
 
     private static final Logger LOG = Logger.getLogger(AuthenticationFilter.class);
-    private static Map<String, List<String>> accessMap = new HashMap<>();
+    private static final Map<String, List<String>> accessMap = new HashMap<>();
     private static List<String> commons = new ArrayList<>();
     private static List<String> outOfControl = new ArrayList<>();
     private final AuthenticationHelper authenticationHelper = new AuthenticationHelper();

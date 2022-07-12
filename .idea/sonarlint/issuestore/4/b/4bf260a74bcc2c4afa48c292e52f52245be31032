@@ -1,5 +1,0 @@
-
-{
-java:S4165"`Remove this useless assignment; "id" already holds the assigned value along all execution paths.(£©èÚþÿÿÿÿ
-J
-java:S1656"/Remove or correct this useless self-assignment.(£©èÚþÿÿÿÿ

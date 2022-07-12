@@ -16,9 +16,11 @@ public class ActivityDAO extends AbstractDAO<Activity> {
 
 
     private int noOfRecords;
+
+    private static final String ACTIVITY_ID = "activity_id";
+    private static final String NAME = "name";
+    private static final String CATEGORY_ID = "activity_category_id";
     private static final String SQL_SELECT_ALL = "SELECT * FROM activities ORDER BY activity_id";
-    private static final String SQL_SORT_ALL_BY_CATEGORY = "SELECT * FROM activities ORDER BY activity_category_id";
-    private static final String SQL_SORT_ALL_BY_NAME = "SELECT * FROM activities ORDER BY name";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM activities WHERE activity_id=? ORDER BY activity_id";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM activities WHERE activity_id=?";
     private static final String SQL_DELETE = "DELETE FROM activities WHERE activity_id in(%s)";
@@ -27,7 +29,7 @@ public class ActivityDAO extends AbstractDAO<Activity> {
     private static final String SQL_SORT_BY_NAME = "SELECT * FROM activities ORDER BY name";
     private static final String SQL_SORT_BY_CATEGORY = "SELECT * FROM activities ORDER BY activity_category_id";
     private static final String SQL_FIND_ACTIVITY_BY_CATEGORY_ID = "SELECT * FROM activities " +
-            "WHERE activity_category_id=? ORDER BY activity_id";;
+            "WHERE activity_category_id=? ORDER BY activity_id";
     private static final String SQL_SELECT_RANGE = "SELECT * FROM activities " +
             "ORDER BY activity_id LIMIT ?,?";
     private static final String SQL_FIND_ACTIVITY_BY_NAME = "SELECT activity_id FROM activities WHERE name=?";
@@ -47,15 +49,15 @@ public class ActivityDAO extends AbstractDAO<Activity> {
 
             while ( resultSet.next() ) {
                 Activity activity = new Activity();
-                activity.setActivityId(resultSet.getInt("activity_id"));
-                activity.setName(resultSet.getString("name"));
-                activity.setCategory(resultSet.getInt("activity_category_id"));
+                activity.setActivityId(resultSet.getInt(ACTIVITY_ID));
+                activity.setName(resultSet.getString(NAME));
+                activity.setCategory(resultSet.getInt(CATEGORY_ID));
                 resultList.add(activity);
             }
 
         } catch (SQLException e) {
-            LOG.error("SQLException : " + e);
-            throw new DBException("Error while finding all activities", e);
+            LOG.error("SQLException thrown : " + e);
+            throw new DBException("Error while finding all activities in findAll()", e);
         }
         LOG.trace("return list : " + resultList);
         LOG.debug("findAll method terminates");
@@ -77,9 +79,9 @@ public class ActivityDAO extends AbstractDAO<Activity> {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while( resultSet.next() ) {
-                activity = Activity.createActivity(resultSet.getString("name"));
-                activity.setActivityId(resultSet.getInt("activity_id"));
-                activity.setCategory(resultSet.getInt("activity_category_id"));
+                activity = Activity.createActivity(resultSet.getString(NAME));
+                activity.setActivityId(resultSet.getInt(ACTIVITY_ID));
+                activity.setCategory(resultSet.getInt(CATEGORY_ID));
                 break;
             }
 
@@ -212,17 +214,17 @@ public class ActivityDAO extends AbstractDAO<Activity> {
 
             while ( resultSet.next() ) {
                 Activity activity = new Activity();
-                activity.setActivityId(resultSet.getInt("activity_id"));
-                activity.setName(resultSet.getString("name"));
-                activity.setCategory(resultSet.getInt("activity_category_id"));
+                activity.setActivityId(resultSet.getInt(ACTIVITY_ID));
+                activity.setName(resultSet.getString(NAME));
+                activity.setCategory(resultSet.getInt(CATEGORY_ID));
                 sortedList.add(activity);
             }
 
         } catch (SQLException e) {
             LOG.error("SQLException : " + e);
-            throw new DBException("Error while finding all activities", e);
+            throw new DBException("Error while finding all activities in sortByName()", e);
         }
-        LOG.trace("return activity list : " + sortedList);
+        LOG.trace("returned activity list : " + sortedList);
         LOG.debug("sortByName activity method terminates");
         return sortedList;
     }
@@ -239,9 +241,9 @@ public class ActivityDAO extends AbstractDAO<Activity> {
 
             while ( resultSet.next() ) {
                 Activity activity = new Activity();
-                activity.setActivityId(resultSet.getInt("activity_id"));
-                activity.setName(resultSet.getString("name"));
-                activity.setCategory(resultSet.getInt("activity_category_id"));
+                activity.setActivityId(resultSet.getInt(ACTIVITY_ID));
+                activity.setName(resultSet.getString(NAME));
+                activity.setCategory(resultSet.getInt(CATEGORY_ID));
                 sortedList.add(activity);
             }
 
@@ -272,9 +274,9 @@ public class ActivityDAO extends AbstractDAO<Activity> {
 
             while ( resultSet.next() ) {
                 Activity activity = new Activity();
-                activity.setActivityId(resultSet.getInt("activity_id"));
-                activity.setName(resultSet.getString("name"));
-                activity.setCategory(resultSet.getInt("activity_category_id"));
+                activity.setActivityId(resultSet.getInt(ACTIVITY_ID));
+                activity.setName(resultSet.getString(NAME));
+                activity.setCategory(resultSet.getInt(CATEGORY_ID));
                 resultList.add(activity);
             }
         } catch (SQLException e) {
@@ -300,7 +302,7 @@ public class ActivityDAO extends AbstractDAO<Activity> {
             ResultSet resultSet = statement.executeQuery();
 
             while ( resultSet.next() ) {
-                result = resultSet.getInt("activity_id");
+                result = resultSet.getInt(ACTIVITY_ID);
             }
         } catch (SQLException e) {
             LOG.error("SQLException : " + e);
@@ -325,9 +327,9 @@ public class ActivityDAO extends AbstractDAO<Activity> {
 
             while ( resultSet.next() ) {
                 Activity activity = new Activity();
-                activity.setActivityId(resultSet.getInt("activity_id"));
-                activity.setName(resultSet.getString("name"));
-                activity.setCategory(resultSet.getInt("activity_category_id"));
+                activity.setActivityId(resultSet.getInt(ACTIVITY_ID));
+                activity.setName(resultSet.getString(NAME));
+                activity.setCategory(resultSet.getInt(CATEGORY_ID));
                 resultList.add(activity);
             }
 
@@ -355,9 +357,9 @@ public class ActivityDAO extends AbstractDAO<Activity> {
             ResultSet resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
                 activity = new Activity();
-                activity.setActivityId(resultSet.getInt("activity_id"));
-                activity.setName(resultSet.getString("name"));
-                activity.setCategory(resultSet.getInt("activity_category_id"));
+                activity.setActivityId(resultSet.getInt(ACTIVITY_ID));
+                activity.setName(resultSet.getString(NAME));
+                activity.setCategory(resultSet.getInt(CATEGORY_ID));
                 resultList.add(activity);
             }
             resultSet.close();
@@ -372,61 +374,6 @@ public class ActivityDAO extends AbstractDAO<Activity> {
         LOG.debug("findAllWithLimits activity method terminates");
         return resultList;
     }
-
-
-//    public List<Activity> findAllSortedByCategory() throws DBException {
-//
-//        LOG.debug("findAllSortedByCategory method starts");
-//
-//        List<Activity> resultList = new ArrayList<>();
-//
-//        try ( PreparedStatement statement = connection.prepareStatement(SQL_SORT_ALL_BY_CATEGORY)) {
-//
-//            ResultSet resultSet = statement.executeQuery();
-//
-//            while ( resultSet.next() ) {
-//                Activity activity = new Activity();
-//                activity.setActivityId(resultSet.getInt("activity_id"));
-//                activity.setName(resultSet.getString("name"));
-//                activity.setCategory(resultSet.getInt("activity_category_id"));
-//                resultList.add(activity);
-//            }
-//
-//        } catch (SQLException e) {
-//            LOG.error("SQLException : " + e);
-//            throw new DBException("Error while finding all activities", e);
-//        }
-//        LOG.trace("return list : " + resultList);
-//        LOG.debug("findAll method terminates");
-//        return resultList;
-//    }
-
-//    public List<Activity> findAllSortedByName() throws DBException {
-//
-//        LOG.debug("findAllSortedByCategory method starts");
-//
-//        List<Activity> resultList = new ArrayList<>();
-//
-//        try ( PreparedStatement statement = connection.prepareStatement(SQL_SORT_ALL_BY_NAME)) {
-//
-//            ResultSet resultSet = statement.executeQuery();
-//
-//            while ( resultSet.next() ) {
-//                Activity activity = new Activity();
-//                activity.setActivityId(resultSet.getInt("activity_id"));
-//                activity.setName(resultSet.getString("name"));
-//                activity.setCategory(resultSet.getInt("activity_category_id"));
-//                resultList.add(activity);
-//            }
-//
-//        } catch (SQLException e) {
-//            LOG.error("SQLException : " + e);
-//            throw new DBException("Error while finding all activities", e);
-//        }
-//        LOG.trace("return list : " + resultList);
-//        LOG.debug("findAll method terminates");
-//        return resultList;
-//    }
 
     public int getNoOfRecords() {
         return noOfRecords;

@@ -12,7 +12,11 @@ import java.util.StringJoiner;
 public class UserDAO extends AbstractDAO<User>{
 
     private static final Logger LOG = Logger.getLogger(UserDAO.class);
+
     private int noOfRecords;
+
+    private static final String USER_ID = "user_id";
+    private static final String USER_NAME = "user_name";
     private static final String SQL_SELECT_ALL = "SELECT user_id, user_name, role FROM users ORDER BY user_id";
     private static final String SQL_SELECT_BY_ID = "SELECT user_id, user_name, role FROM users " +
             "WHERE user_id=? ORDER BY user_id";
@@ -38,8 +42,8 @@ public class UserDAO extends AbstractDAO<User>{
 
             while ( resultSet.next() ) {
                 User user = new User();
-                user.setUserId(resultSet.getInt("user_id"));
-                user.setName(resultSet.getString("user_name"));
+                user.setUserId(resultSet.getInt(USER_ID));
+                user.setName(resultSet.getString(USER_NAME));
                 user.setRole(resultSet.getString("role"));
                 resultList.add(user);
             }
@@ -67,8 +71,8 @@ public class UserDAO extends AbstractDAO<User>{
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while( resultSet.next() ) {
-                user = User.createUser(resultSet.getString("user_name"));
-                user.setUserId(resultSet.getInt("user_id"));
+                user = User.createUser(resultSet.getString(USER_NAME));
+                user.setUserId(resultSet.getInt(USER_ID));
                 user.setRole(resultSet.getString("role"));
                 break;
             }
@@ -166,12 +170,16 @@ public class UserDAO extends AbstractDAO<User>{
 
     @Override
     public boolean update(User user) throws DBException {
+
         LOG.debug("update user method starts");
+
         if (user == null) {
             LOG.trace("invalid input, create user : " + false);
             return false;
+
         }
         boolean rowsUpdate;
+
         try(PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getRole());
@@ -182,6 +190,7 @@ public class UserDAO extends AbstractDAO<User>{
             LOG.error("Error while updating user : " + e);
             throw new DBException("Error while updating user", e);
         }
+
         LOG.trace("return update user : " + rowsUpdate);
         LOG.debug("update user method terminates");
         return rowsUpdate;
@@ -202,8 +211,8 @@ public class UserDAO extends AbstractDAO<User>{
             ResultSet rs = stmt.executeQuery(SQL_SELECT_ALL_LIMIT);
             while (rs.next()) {
                 user = new User();
-                user.setUserId(rs.getInt("user_id"));
-                user.setName(rs.getString("user_name"));
+                user.setUserId(rs.getInt(USER_ID));
+                user.setName(rs.getString(USER_NAME));
                 user.setRole(rs.getString("role"));
                 resultList.add(user);
             }
@@ -220,10 +229,6 @@ public class UserDAO extends AbstractDAO<User>{
         return resultList;
     }
 
-    public int getNoOfRecords() throws DBException {
-        return noOfRecords;
-    }
-
     public int findId(User user) throws DBException {
         int id = 0;
         if (user == null) return id;
@@ -235,7 +240,7 @@ public class UserDAO extends AbstractDAO<User>{
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while( resultSet.next() ) {
-                id = resultSet.getInt("user_id");
+                id = resultSet.getInt(USER_ID);
                 break;
             }
         } catch (SQLException e) {
@@ -255,7 +260,7 @@ public class UserDAO extends AbstractDAO<User>{
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while( resultSet.next() ) {
-                id = resultSet.getInt("user_id");
+                id = resultSet.getInt(USER_ID);
                 break;
             }
             if (id != 0) {return true;}
@@ -265,5 +270,9 @@ public class UserDAO extends AbstractDAO<User>{
             throw new DBException("Username is not present in the DB", e);
         }
         return false;
+    }
+
+    public int getNoOfRecords() {
+        return noOfRecords;
     }
 }

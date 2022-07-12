@@ -61,7 +61,7 @@ public class User extends Entity {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "\n User{" +
                 "userId=" + userId +
                 ", name='" + name + '\'' +
                 ", role='" + role + '\'' +
@@ -74,6 +74,7 @@ public class User extends Entity {
         user.setRole(String.valueOf(role));
         return user;
     }
+
     public static User createUser(String name) {
         User user = new User();
         user.setName(name);
